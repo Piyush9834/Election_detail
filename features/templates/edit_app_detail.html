@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit App Detail</title>
+    <style>
+        /* Add custom CSS styles here */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        /* Add more CSS styles as needed */
+    </style>
+</head>
+<body>
+    <h1>Edit App Detail</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+        <button><a href='{% url 'app-dashboard' %}' class="btn btn-info">Back to Home</a></button>
+    </form>
+        
+        
+</body>
+</html>
+

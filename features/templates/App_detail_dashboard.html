@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - App Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: slategrey;
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .actions {
+            white-space: nowrap;
+        }
+
+        .actions form {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .actions button {
+            background-color: slategrey;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .actions button:hover {
+            background-color: slategrey;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 5px;
+            width: 60%;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .search-button {
+            background-color: slategrey;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .search-button:hover {
+            background-color: slategrey;
+        }
+        .not-found {
+            background-color: #ff6666; /* Red background color */
+            color: white; /* White text color */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+    </style>
+    <script>
+        
+        function clearSearchInput() {
+            document.getElementById("searchInput").value = "";
+        }
+    </script>
+</head>
+<body>
+    <h1 text=bold>Dashboard - App-Details </h1>
+    <form method="GET">
+        <input type="text" id="searchInput" name="q" placeholder="Search by app name" value="{{ search_query|default:"" }}">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+    {% if search_query and no_results %}
+        <p class="not-found">Detail Not Found With This App-Name</p>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>App_Name</th>
+                <th>Party_Name</th>
+                <th>Is_enable</th>
+                <th>Banner_Send_Date</th>
+                <th>Password</th>
+                <th>Error_Message</th>
+                <th>Promotion_Message</th>
+                <th>Actions</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for app_detail in App_details %}
+            <tr>
+                <td>{{ app_detail.app_name}}</td>
+                <td>{{ app_detail.party_name }}</td>
+                <td>{{ app_detail.is_enable }}</td>
+                <td>{{ app_detail.banner_send_date }}</td>
+                <td>{{ app_detail.password }}</td>
+                <td>{{ app_detail.error_message }}</td>
+                <td>{{ app_detail.promotion_message}}</td>
+                
+
+                
+                <td class="actions">
+                    <form action="{% url 'edit_app_detail' app_detail.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form action="{% url 'delete_app_detail' app_detail.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

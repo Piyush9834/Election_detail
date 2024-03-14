@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Full Voter Details</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: slategrey;
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .actions {
+            white-space: nowrap;
+        }
+
+        .actions form {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .actions button {
+            background-color: slategrey;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        /* Styles for ADD_VOTER button */
+        .add-voter-button {
+            background-color: slategrey;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .add-voter-button:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Styles for search button */
+        .search-button {
+            background-color: slategrey;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .search-button:hover {
+            background-color: slategrey;
+        }
+        .not-found {
+            background-color: #ff6666; /* Red background color */
+            color: white; /* White text color */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .not-found:hover {
+            background-color: #ff9999; /* Darker red color on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard - Full Voter Details</h1>
+    <div class="button-container">
+        <!-- ADD_VOTER button -->
+        <form action="{% url 'add-voter' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="add-voter-button">ADD_VOTER</button>
+        </form>
+        <!-- Search button -->
+        <form method="GET">
+            <input type="text" id="searchInput" name="q" placeholder="Search by first_name" value="{{ search_query|default:"" }}">
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+    {% if search_query and no_results %}
+        <p class="not-found">Detail Not Found With This First-Name</p>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sr no</th>
+                <th>Ac Number</th>
+                <th>Booth Number</th>
+                <th>Epic number</th>
+                <th>Voter Sr Number</th>
+                <th>House Number</th>
+                <th>Age</th>
+                <th>First Name Hindi</th>
+                <th>First Name English</th>
+                <th>Last Name Hindi</th>
+                <th>Last Name English</th>
+                <th>Full Name Hindi</th>
+                <th>Full Name English</th>
+                <th>Gender English</th>
+                <th>Gender Hindi</th>
+                <th>Address English</th>
+                <th>Address Hindi</th>
+                <th>Booth Address English</th>
+                <th>Booth Address Hindi</th>
+                <th>mobile no</th>
+                <th>is voted</th>
+                <th>colour</th>
+                <th>is activist</th>
+                <th>profession</th>
+                <th>updated_address</th>
+                <th>post</th>
+                <th>Actions</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for voter_detail in voter_details %}
+            <tr>
+                <td>{{ voter_detail.sr_no }}</td>
+                <td>{{ voter_detail.ac_no }}</td>
+                <td>{{ voter_detail.booth_no }}</td>
+                <td>{{ voter_detail.epic_no }}</td>
+                <td>{{ voter_detail.voter_sr_no }}</td>
+                <td>{{ voter_detail.house_no }}</td>
+                <td>{{ voter_detail.age }}</td>
+                
+                <td>{{ voter_detail.first_name_hindi }}</td>
+                <td>{{ voter_detail.first_name_english}}</td>
+                <td>{{ voter_detail.last_name_hindi }}</td>
+                <td>{{ voter_detail.last_name_english }}</td>
+                <td>{{ voter_detail.full_name_hindi }}</td>
+                <td>{{ voter_detail.full_name_english }}</td>
+                <td>{{voter_detail.gender_english }}</td>
+                <td>{{ voter_detail.gender_hindi }}</td>
+                <td>{{ voter_detail.address_english }}</td>
+                <td>{{ voter_detail.address_hindi }}</td>
+                <td>{{ voter_detail.booth_address_english }}</td>
+                <td>{{ voter_detail.booth_address_hindi }}</td>
+                <td>{{ voter_detail.mobile_no }}</td>
+                <td>{{ voter_detail.is_voted }}</td>
+                <td>{{ voter_detail.colour }}</td>
+                <td>{{ voter_detail.is_activist }}</td>
+                
+                <td>{{ voter_detail.profession }}</td>
+                <td>{{ voter_detail.updated_address }}</td>
+                <td>{{ voter_detail.post }}</td>
+                
+                <td class="actions">
+                    
+                    <form action="{% url 'edit_voter_detail' voter_detail.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form action="{% url 'edit_voter_detail' voter_detail.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
